@@ -61,10 +61,11 @@ const PODesc = ({ searchDetails }: { searchDetails: sortedData }) => {
               <div>{data.filename}</div>
               <div className="submitBTN" style={{ width: '2.5rem' }}>
                 <a
-                  href={`${'https://team1backendbucket.s3.ap-south-1.amazonaws.com/'}${data.filename?.replace(
-                    /\s+/g,
-                    '_'
-                  )}`}
+                  href={data.filePath}
+                  // `${'https://team1backendbucket.s3.ap-south-1.amazonaws.com/'}${data.filename?.replace(
+                  //   /\s+/g,
+                  //   '_'
+                  // )}`
                   target="_blank"
                   rel="noreferrer"
                 >

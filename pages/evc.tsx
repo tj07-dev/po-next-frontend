@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { useRef, useState } from 'react';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import config from '../config.json';
 import DataTable from '../components/EVC/dataTable/DataTable';
 import FileUploader from '../components/EVC/fileUploader/FileUploader';
 import SheetSelector from '../components/EVC/sheetSelector/SheetSelector';
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
+import config from '../config.json';
+import { NextPageWithLayout } from './page';
 
-const EVC = () => {
+const EVC: NextPageWithLayout = () => {
   const [data, setData] = useState([]);
   const inputFileRef = useRef<any>();
   const [showComponent, setShowComponent] = useState(false);
@@ -137,3 +139,6 @@ const EVC = () => {
 };
 
 export default EVC;
+EVC.getLayout = (page) => {
+  return <PrimaryLayout>{page}</PrimaryLayout>;
+};

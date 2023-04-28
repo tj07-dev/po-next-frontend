@@ -35,7 +35,7 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
 
   return (
     <div>
-      {error.error ? (
+      {error.error === true ? (
         <pre>
           <h1>Something went wrong.</h1>
           <p>PO list can&apos;t fetched.</p>

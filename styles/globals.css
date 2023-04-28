@@ -36,9 +36,6 @@ body {
   min-height: 90vh;
 }
 .App,
-.container {
-  margin: 0 1rem;
-}
 .File {
   display: flex;
 }

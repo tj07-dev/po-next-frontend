@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import style from './PO.module.scss';
 import axios from 'axios';
+import { useState } from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import config from '../../config.json';
-import { Col, Form, Row } from 'react-bootstrap';
+import style from './PO.module.css';
 import AddRows from './RowAR';
-import './PO.module.scss';
 
 interface IInputList {
   po_id: string;
@@ -70,6 +69,7 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
     const { po_id, date, poname, projectName, items } = inputList;
     const formData = new FormData();
     formData.append('file', file);
+
     console.log(file);
     const data = {
       po_id,
@@ -79,12 +79,16 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
       items,
       filename: file.name,
     };
+    formData.append('details', JSON.stringify(data));
 
     try {
-      const response = await axios.post(`${config.SERVER_URL}poDetails`, data);
+      const response = await axios.post(
+        `${config.SERVER_URL}poDetails`,
+        formData
+      );
       if (response.status === 200) {
         toast.info('Data Submitted Successfully');
-        await axios.post(`${config.SERVER_URL}uploadFile`, formData);
+        // await axios.post(`${config.SERVER_URL}uploadFile`, formData);
       }
     } catch (error) {
       console.log(error);
@@ -100,9 +104,9 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
         <Form.Group>
           <br />
           <Row>
-            <Col className="form__group field">
+            <Col className={`${style.formGroup} ${style.field}`}>
               <input
-                className="text-input form__field"
+                className={`${style['formField']} text-input`}
                 type="number"
                 placeholder="Enter order number"
                 name="ponumber"
@@ -118,9 +122,9 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
                 PO Number <span className="star">*</span>
               </label>
             </Col>
-            <Col className="form__group field">
+            <Col className={`${style.formGroup} ${style.field}`}>
               <input
-                className="text-input form__field"
+                className={`${style['formField']} text-input`}
                 type="text"
                 placeholder="Enter PO Name"
                 name="poname"
@@ -136,9 +140,9 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
                 PO Name <span className="star">*</span>
               </label>
             </Col>
-            <Col className="form__group field">
+            <Col className={`${style.formGroup} ${style.field}`}>
               <input
-                className="text-input form__field"
+                className={`${style['formField']} text-input`}
                 type="text"
                 placeholder="Enter order number"
                 name="projectName"
@@ -154,9 +158,9 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
                 Project Name <span className="star">*</span>
               </label>
             </Col>
-            <Col className="form__group field">
+            <Col className={`${style.formGroup} ${style.field}`}>
               <input
-                className="text-input form__field"
+                className={`${style['formField']} text-input`}
                 type="date"
                 placeholder="Select Date"
                 name="date"

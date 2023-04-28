@@ -6,10 +6,10 @@
   height: 40px;
 }
 
-.form__group {
+.formGroup {
   position: relative;
 }
-.form__field {
+.formField {
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -19,11 +19,11 @@
   background: transparent;
   border-radius: 4px;
 }
-.form__field::placeholder {
+.formField::placeholder {
   color: transparent;
 }
 
-.form__label {
+.formLabel {
   position: absolute;
   left: 0;
   top: 0;
@@ -38,14 +38,14 @@
   font-weight: bold;
   line-height: 1.2;
 }
-.form__field:focus + .form__label,
-.form__field:not(:placeholder-shown) + .form__label {
+.formField:focus + .formLabel,
+.formField:not(:placeholder-shown) + .form__label {
   transform: translate(0.25rem, -65%) scale(0.8);
 }
 
 /* reset input */
-.form__field:required,
-.form__field:invalid {
+.formField:required,
+.formField:invalid {
   box-shadow: none;
 }
 .count {

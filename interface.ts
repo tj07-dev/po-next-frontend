@@ -6,6 +6,7 @@ export interface sortedData {
   projectName: string;
   filename: string;
   id: number;
+  filePath?: string;
 }
 export interface DetailsEntity {
   description?: string;

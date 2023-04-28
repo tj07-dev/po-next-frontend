@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import config from '../config.json';
-import { sortedData } from '../interface';
+import { Container } from 'react-bootstrap';
 import ListPo from '../components/DMR/listPO/ListPo';
 import POSearch from '../components/DMR/poSearch/POSearch';
-import { Container } from 'react-bootstrap';
+import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
+import config from '../config.json';
+import { sortedData } from '../interface';
 import styles from '../styles/dmr.module.css';
+import { NextPageWithLayout } from './page';
 
 interface errorProps {
   error: boolean | null;
   errMessage: string | null;
 }
 
-const DMR = () => {
+const DMR: NextPageWithLayout = () => {
   const [id, setId] = useState('');
   const [show, setShow] = useState(true);
   const [found, setFound] = useState(true);
@@ -129,7 +131,7 @@ const DMR = () => {
             </>
           )}
         </div>
-        {po ? (
+        {po.length ? (
           <div className="dropdown btn btn-outline-dark">
             <button
               className="btn dropdown-toggle"
@@ -183,9 +185,9 @@ const DMR = () => {
                 <h3 className={styles.notFound}>No Data Found.</h3>
               ) : null)}
 
-            {po && !show ? (
+            {po.length && !show ? (
               <ListPo poDetails={po} />
-            ) : !po ? (
+            ) : po ? (
               <>
                 {error.error == false ? (
                   <h2>Loading...</h2>
@@ -212,3 +214,6 @@ const DMR = () => {
 };
 
 export default DMR;
+DMR.getLayout = (page) => {
+  return <PrimaryLayout>{page}</PrimaryLayout>;
+};
