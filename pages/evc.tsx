@@ -2,44 +2,33 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { WorkBook } from 'xlsx';
 import DataTable from '../components/EVC/dataTable/DataTable';
 import FileUploader from '../components/EVC/fileUploader/FileUploader';
-import SheetSelector from '../components/EVC/sheetSelector/SheetSelector';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import config from '../config.json';
 import { NextPageWithLayout } from './page';
 
-const EVC: NextPageWithLayout = () => {
-  const [data, setData] = useState([]);
-  const inputFileRef = useRef<any>();
-  const [showComponent, setShowComponent] = useState(false);
-  const [selectedSheetIndex, setSelectedSheetIndex] = useState(0);
-  const [workbook, setWorkbook] = useState(null);
-  const [header, setHeader] = useState([]);
-  const [fileError, setFileError] = useState('');
-  const [dataError, setDataError] = useState('');
-  const [sheetName, setSheetName] = useState([]);
-  const [validationError, setValidationError] = useState('');
+export interface IEVC {
+  workbook: WorkBook;
+  selectedSheetIndex: number;
+  setSelectedSheetIndex: typeof useState;
+  setData: typeof useState;
+  data: typeof Object;
+  setHeader: typeof useState;
+}
 
-  // const handleSubmit = async (e) => {
-  //     if (data.length === 0) {
-  //         setDataError('No data to submit.');
-  //         return;
-  //     }
-  //     try {
-  //         const response = await axios
-  //             .post(`${config.SERVER_URL}xlData`, data)
-  //             .then((d) => {
-  //                 if (d.status === 404) toast.error('404 (Not Found)');
-  //                 if (d.status === 200)
-  //                     toast.success('Data Submitted Successfully');
-  //                 toast.info(`${d.statusText}`);
-  //             });
-  //     } catch (error: any) {
-  //         toast.error(`${error?.message}`);
-  //         console.error(error?.message, 'ENEVC');
-  //     }
-  // };
+const EVC: NextPageWithLayout = () => {
+  const [data, setData] = useState<[]>([]);
+  const inputFileRef = useRef<any>();
+  const [showComponent, setShowComponent] = useState<boolean>(false);
+  const [selectedSheetIndex, setSelectedSheetIndex] = useState<number>(0);
+  const [workbook, setWorkbook] = useState<WorkBook>({} as WorkBook);
+  const [header, setHeader] = useState([]);
+  const [fileError, setFileError] = useState<string>('');
+  const [dataError, setDataError] = useState<string>('');
+  const [sheetName, setSheetName] = useState([]);
+  const [validationError, setValidationError] = useState<string>('');
 
   const handleSubmit = async () => {
     if (sheetName.length === 0) {
@@ -62,7 +51,7 @@ const EVC: NextPageWithLayout = () => {
 
   const handleRemoveFile = () => {
     setData([]);
-    setWorkbook(null);
+    setWorkbook({} as WorkBook);
     setFileError('');
     setSheetName([]);
     inputFileRef.current.value = '';
@@ -90,14 +79,14 @@ const EVC: NextPageWithLayout = () => {
       {sheetName?.length > 0 && (
         <Row className="mt-3">
           <Col>
-            <SheetSelector
+            {/* <SheetSelector
               workbook={workbook}
               selectedSheetIndex={selectedSheetIndex}
               setSelectedSheetIndex={setSelectedSheetIndex}
               setData={setData}
               data={data}
               setHeader={setHeader}
-            />
+            /> */}
             {validationError && (
               <Alert variant="danger">{validationError}</Alert>
             )}

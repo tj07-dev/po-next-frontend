@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { utils } from 'xlsx';
-import { Card, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
+import { WorkBook, utils } from 'xlsx';
 
 export interface ISheetSelector {
-  workbook: any;
-  selectedSheetIndex: any;
-  setSelectedSheetIndex: any;
-  setData: any;
-  data: any;
-  setHeader: any;
+  workbook: WorkBook;
+  selectedSheetIndex: number;
+  setSelectedSheetIndex: Dispatch<SetStateAction<number>>;
+  setData: Dispatch<SetStateAction<Array<string>>>;
+  data: typeof Object;
+  setHeader: Dispatch<SetStateAction<string>>;
 }
 
 const SheetSelector = ({
@@ -35,12 +35,12 @@ const SheetSelector = ({
     setSelectedSheetIndex(e);
     const worksheetNames = workbook.SheetNames;
     const selectedWorksheet = workbook.Sheets[worksheetNames[e]];
-    const sheetData = utils.sheet_to_json(selectedWorksheet, {
+    const sheetData: Array<string> = utils.sheet_to_json(selectedWorksheet, {
       raw: false,
       dateNF: 'yyyy-mm-dd',
       // cellDates: true,
     });
-    const sheetData1 = utils.sheet_to_json(selectedWorksheet, {
+    const sheetData1: Array<string> = utils.sheet_to_json(selectedWorksheet, {
       header: 1,
       raw: false,
       dateNF: 'yyyy-mm-dd',
