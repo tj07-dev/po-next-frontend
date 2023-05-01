@@ -1,3 +1,7 @@
+import { Dispatch, SetStateAction } from 'react';
+import { WorkBook } from 'xlsx';
+
+//DMR
 export interface sortedData {
   ponumber: string;
   date: string;
@@ -14,4 +18,41 @@ export interface DetailsEntity {
   raisedAmount?: string;
   dmrNo?: string;
   date?: string;
+}
+
+//EVC
+export interface IFileUploader {
+  data: string[];
+  fileError: string;
+  setData: Dispatch<SetStateAction<Array<string>>>;
+  setWorkbook: Dispatch<SetStateAction<WorkBook>>;
+  setFileError: Dispatch<SetStateAction<string>>;
+  inputFileRef: React.RefObject<HTMLInputElement>;
+  handleRemoveFile: () => void;
+  setSheetName: Dispatch<SetStateAction<Array<string>>>;
+  sheetName: string[];
+  setHeader: Dispatch<SetStateAction<Array<string>>>;
+}
+
+export interface ISheetSelector {
+  workbook: WorkBook;
+  selectedSheetIndex: number;
+  setSelectedSheetIndex: Dispatch<SetStateAction<number>>;
+  setData: Dispatch<SetStateAction<Array<string>>>;
+  data: string[];
+  setHeader: Dispatch<SetStateAction<Array<string>>>;
+}
+
+export interface IDataTable {
+  data: string[];
+  headers: string[];
+}
+
+export interface IEVC {
+  workbook: WorkBook;
+  selectedSheetIndex: number;
+  setSelectedSheetIndex: Dispatch<SetStateAction<number>>;
+  setData: Dispatch<SetStateAction<Array<string>>>;
+  data: string[];
+  setHeader: Dispatch<SetStateAction<Array<string>>>;
 }

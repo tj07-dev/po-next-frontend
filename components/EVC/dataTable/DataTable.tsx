@@ -1,9 +1,5 @@
 import { Table } from 'react-bootstrap';
-
-export interface IDataTable {
-  data: any;
-  headers: any;
-}
+import { IDataTable } from '../../../interface';
 
 const DataTable = ({ data, headers }: IDataTable) => {
   return (

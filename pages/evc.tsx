@@ -5,29 +5,23 @@ import { toast } from 'react-toastify';
 import { WorkBook } from 'xlsx';
 import DataTable from '../components/EVC/dataTable/DataTable';
 import FileUploader from '../components/EVC/fileUploader/FileUploader';
+import SheetSelector from '../components/EVC/sheetSelector/SheetSelector';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import config from '../config.json';
 import { NextPageWithLayout } from './page';
 
-export interface IEVC {
-  workbook: WorkBook;
-  selectedSheetIndex: number;
-  setSelectedSheetIndex: typeof useState;
-  setData: typeof useState;
-  data: typeof Object;
-  setHeader: typeof useState;
-}
 
 const EVC: NextPageWithLayout = () => {
-  const [data, setData] = useState<[]>([]);
+  const [data, setData] = useState<string[]>([]);
   const inputFileRef = useRef<any>();
   const [showComponent, setShowComponent] = useState<boolean>(false);
-  const [selectedSheetIndex, setSelectedSheetIndex] = useState<number>(0);
+  const [selectedSheetIndex, setSelectedSheetIndex] = useState(0);
   const [workbook, setWorkbook] = useState<WorkBook>({} as WorkBook);
-  const [header, setHeader] = useState([]);
+  const [header, setHeader] = useState<string[]>([]);
   const [fileError, setFileError] = useState<string>('');
   const [dataError, setDataError] = useState<string>('');
-  const [sheetName, setSheetName] = useState([]);
+  const [sheetName, setSheetName] = useState<string[]>([]);
+  // eslint-disable-next-line no-unused-vars
   const [validationError, setValidationError] = useState<string>('');
 
   const handleSubmit = async () => {
@@ -79,14 +73,14 @@ const EVC: NextPageWithLayout = () => {
       {sheetName?.length > 0 && (
         <Row className="mt-3">
           <Col>
-            {/* <SheetSelector
+            <SheetSelector
               workbook={workbook}
               selectedSheetIndex={selectedSheetIndex}
               setSelectedSheetIndex={setSelectedSheetIndex}
               setData={setData}
               data={data}
               setHeader={setHeader}
-            /> */}
+            />
             {validationError && (
               <Alert variant="danger">{validationError}</Alert>
             )}

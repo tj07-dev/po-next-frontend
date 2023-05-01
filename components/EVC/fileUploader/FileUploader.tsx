@@ -1,22 +1,11 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { Alert, Button, Card, Form } from 'react-bootstrap';
 import { read, utils, writeFile } from 'xlsx';
 import config from '../../../config.json';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { IFileUploader } from '../../../interface';
 
-export interface IFileUploader {
-  data: any;
-  fileError: any;
-  setData: any;
-  setWorkbook: any;
-  setFileError: any;
-  inputFileRef: any;
-  handleRemoveFile: any;
-  setSheetName: any;
-  sheetName: any;
-  setHeader: any;
-}
 
 const FileUploader = ({
   fileError,
@@ -51,7 +40,7 @@ const FileUploader = ({
         setWorkbook(workbook);
         setSheetName(workbook.SheetNames);
         const selectedWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const sheetData1 = utils.sheet_to_json(selectedWorksheet, {
+        const sheetData1: Array<string[]> = utils.sheet_to_json(selectedWorksheet, {
           header: 1,
           raw: false,
           dateNF: 'yyyy-mm-dd',
@@ -73,7 +62,7 @@ const FileUploader = ({
           }
           return row;
         });
-        setData(modifiedSheetData);
+        setData(modifiedSheetData as string[]);
 
         console.log(modifiedSheetData, 'sheetdata');
       };

@@ -1,15 +1,7 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
-import { WorkBook, utils } from 'xlsx';
-
-export interface ISheetSelector {
-  workbook: WorkBook;
-  selectedSheetIndex: number;
-  setSelectedSheetIndex: Dispatch<SetStateAction<number>>;
-  setData: Dispatch<SetStateAction<Array<string>>>;
-  data: typeof Object;
-  setHeader: Dispatch<SetStateAction<string>>;
-}
+import { utils } from 'xlsx';
+import { ISheetSelector } from '../../../interface';
 
 const SheetSelector = ({
   workbook,
@@ -21,7 +13,7 @@ const SheetSelector = ({
 }: ISheetSelector) => {
   useEffect(() => {
     setSelectedSheetIndex(0);
-  }, []);
+  }, [setSelectedSheetIndex]);
 
   useEffect(() => {
     const readData = () => {
@@ -40,7 +32,7 @@ const SheetSelector = ({
       dateNF: 'yyyy-mm-dd',
       // cellDates: true,
     });
-    const sheetData1: Array<string> = utils.sheet_to_json(selectedWorksheet, {
+    const sheetData1: Array<string[]> = utils.sheet_to_json(selectedWorksheet, {
       header: 1,
       raw: false,
       dateNF: 'yyyy-mm-dd',
@@ -64,7 +56,7 @@ const SheetSelector = ({
             title="Select sheet"
             onSelect={handleSelectChange}
           >
-            {workbook.SheetNames.map((sheetName: any, index: number) => (
+            {workbook.SheetNames.map((sheetName: string, index: number) => (
               <Dropdown.Item key={index} eventKey={index}>
                 {sheetName}
               </Dropdown.Item>
