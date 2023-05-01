@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import '../styles/globals.css';
 import { NextPageWithLayout } from './page';
 
@@ -13,6 +14,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <>
+      <Head>
+        <title>PO Module</title>
+      </Head>
       <Component {...pageProps} />
     </>
   );

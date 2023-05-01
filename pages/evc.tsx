@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { WorkBook } from 'xlsx';
@@ -9,7 +9,6 @@ import SheetSelector from '../components/EVC/sheetSelector/SheetSelector';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import config from '../config.json';
 import { NextPageWithLayout } from './page';
-
 
 const EVC: NextPageWithLayout = () => {
   const [data, setData] = useState<string[]>([]);
@@ -23,6 +22,10 @@ const EVC: NextPageWithLayout = () => {
   const [sheetName, setSheetName] = useState<string[]>([]);
   // eslint-disable-next-line no-unused-vars
   const [validationError, setValidationError] = useState<string>('');
+
+  useEffect(() => {
+    document.title = 'EVC';
+  }, []);
 
   const handleSubmit = async () => {
     if (sheetName.length === 0) {
