@@ -74,6 +74,8 @@
   }
   .navbar .navbar-right.open {
     display: flex;
+    gap: 1.5rem;
+    font-size: large;
     animation-name: slide-in;
     animation-duration: 0.5s;
   }
@@ -85,14 +87,14 @@
     animation-fill-mode: forwards;
   }
 }
-.navbar .navbar-link {
+.navbar .navbarlink {
   text-decoration: none !important;
   font-family: 'Source Serif Pro', serif;
   color: white;
   margin-left: 20px;
   margin-right: 20px;
 }
-.navbar .navbar-link:hover {
+.navbar .navbarlink:hover {
   text-decoration: none;
   background-image: linear-gradient(to right, red, white);
   background-position: bottom center;
@@ -100,11 +102,11 @@
   background-size: 120% 0.1em;
 }
 @media only screen and (min-width: 768px) {
-  .navbar .navbar-link:hover {
+  .navbar .navbarlink:hover {
     opacity: 0.8;
   }
 }
-.navbar .navbar-link.active {
+.navbar .navbarlink.active {
   color: whitesmoke;
   text-decoration: none;
   background-image: linear-gradient(to left, #000, white);

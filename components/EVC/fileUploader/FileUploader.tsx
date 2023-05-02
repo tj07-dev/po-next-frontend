@@ -2,6 +2,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { read, utils, writeFile } from 'xlsx';
 import config from '../../../config.json';
 import { IFileUploader } from '../../../interface';
@@ -19,11 +20,24 @@ const FileUploader = ({
   setHeader,
 }: IFileUploader) => {
   const downloadExcel = () => {
+    const id = toast.loading("Preparing to download.", {
+      position: "bottom-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "light",
+      type: 'info'
+    })
     axios.get(`${config.SERVER_URL}xlData`).then((d) => {
       console.log(d);
       const workbook = d.data;
       writeFile(workbook, 'AllData.xlsx');
-    });
+      toast.update(id, { render: "File Downloaded.", type: "success", isLoading: false, autoClose: 300 });
+    }).catch((error: any) => {
+      toast.update(id, { render: `${error.message}.`, type: "error", isLoading: false, autoClose: 800 });
+    })
   };
 
   const handleFileUpload = (e: any) => {

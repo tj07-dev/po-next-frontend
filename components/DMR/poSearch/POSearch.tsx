@@ -1,27 +1,39 @@
 import axios from 'axios';
 import { memo, useState } from 'react';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import config from '../../../config.json';
 import { sortedData } from '../../../interface';
 import '../DMR.module.css';
 
 const DMRinputs = ({ details }: { details: sortedData }) => {
+
   const data = details.details;
   const [inputList, setInputList] = useState(data);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log('DMRINput', data);
+
+    const id = toast.loading("Submitting details", {
+      position: "bottom-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    })
+    // console.log('DMRINput', data);
     e.preventDefault();
     axios
       .patch(`${config.SERVER_URL}poDetails/${details.ponumber}`, data)
-      .then((d) => {
-        console.log('Response', d);
-        // toast.success('Data Updated Successfully.');
+      .then(() => {
+        toast.update(id, { render: "Data Submitted Successfully.", type: "success", isLoading: false, autoClose: 300 });
+        // console.log('Response', d);
       })
       .catch((err) => {
-        // toast.error('Data Not Updated.');
-        console.log(err);
+        toast.update(id, { render: `${err.message}.`, type: "error", isLoading: false, autoClose: 300 });
+        // console.log(err);
       });
   };
 

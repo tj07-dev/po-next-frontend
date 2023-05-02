@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from './Header.module.css';
 
 const Header = () => {
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,38 +14,35 @@ const Header = () => {
 
   return (
     <nav className={styles.navbar}>
-      {' '}
       <div className={styles['navbar-left']}>
-        {' '}
         <Link href="/" className={styles['navbar-brand']}>
-          Purchase Order{' '}
-        </Link>{' '}
-      </div>{' '}
+          Purchase Order
+        </Link>
+      </div>
       <button className={styles['navbar-toggle-button']} onClick={toggleMenu}>
-        <span className={styles['navbar-toggle-icon']}></span>{' '}
-      </button>{' '}
+        <span className={styles['navbar-toggle-icon']}></span>
+      </button>
       <div
         className={`${styles['navbar-right']} ${isOpen ? styles['open'] : ''}`}
       >
-        {' '}
-        <Link href="/" className={styles['navbar-link']} onClick={toggleMenu}>
-          Home{' '}
-        </Link>{' '}
+        <Link href="/" className={`${styles.navbarlink}  ${router.asPath === '/' ? styles['active'] : ''}`} onClick={toggleMenu}>
+          Home
+        </Link>
         <Link
           href="/evc"
-          className={styles['navbar-link']}
+          className={`${styles.navbarlink}  ${router.asPath === '/evc' ? styles['active'] : ''}`}
           onClick={toggleMenu}
         >
-          EVC{' '}
-        </Link>{' '}
+          EVC
+        </Link>
         <Link
           href="/dmr"
-          className={styles['navbar-link']}
+          className={`${styles.navbarlink}  ${router.asPath === '/dmr' ? styles['active'] : ''}`}
           onClick={toggleMenu}
         >
-          Raise DMR{' '}
-        </Link>{' '}
-      </div>{' '}
+          Raise DMR
+        </Link>
+      </div>
     </nav>
   );
 };

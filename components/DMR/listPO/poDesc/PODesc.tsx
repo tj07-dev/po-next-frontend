@@ -7,26 +7,38 @@ import { sortedData } from '../../../../interface';
 import '../../DMR.module.css';
 
 const PODesc = ({ searchDetails }: { searchDetails: sortedData }) => {
+
   const data = searchDetails;
   const [inputList, setInputList] = useState(data);
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log('DMR DESC', data);
     e.preventDefault();
-    //Type 'MouseEvent<HTMLButtonElement, MouseEvent>'
+    const id = toast.loading("Submiting...", {
+      position: "bottom-right",
+      autoClose: 500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    })
     axios
       .patch(`${config.SERVER_URL}poDetails/${data.ponumber}`, data.details)
       .then((res) => {
-        console.log('Response', res);
-        if (res.status === 200) {
-          toast.success('Data Updated Successfully.');
+        if (res.status === 404) {
+          toast.update(id, { render: "404, File Not Found.", type: "error", isLoading: false, autoClose: 300 });
+        } else if (res.status === 200) {
+          toast.update(id, { render: "Data updated successfully.", type: "success", isLoading: false, autoClose: 300 });
         }
-        // ;
       })
       .catch((err) => {
-        toast.error('Data Not Updated.');
-        console.log(err);
+        toast.update(id, { render: `Data Not Updated. Error: ${err.message}.`, type: "error", isLoading: false, autoClose: 300 });
+        // console.log(err);
       });
   };
+
   return (
     <div className="container-table100 " style={{ justifyContent: 'center' }}>
       <div className="wrap-table100" style={{ width: 'inherit' }}>
@@ -62,10 +74,6 @@ const PODesc = ({ searchDetails }: { searchDetails: sortedData }) => {
               <div className="submitBTN" style={{ width: '2.5rem' }}>
                 <a
                   href={data.filePath}
-                  // `${'https://team1backendbucket.s3.ap-south-1.amazonaws.com/'}${data.filename?.replace(
-                  //   /\s+/g,
-                  //   '_'
-                  // )}`
                   target="_blank"
                   rel="noreferrer"
                 >

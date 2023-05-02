@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Dropdown } from 'react-bootstrap';
 import ListPo from '../components/DMR/listPO/ListPo';
 import POSearch from '../components/DMR/poSearch/POSearch';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
@@ -16,16 +16,17 @@ interface errorProps {
 
 const DMR: NextPageWithLayout = () => {
   const [id, setId] = useState('');
-  const [show, setShow] = useState(true);
-  const [found, setFound] = useState(true);
-  const [detail, setDetail] = useState(null);
+  const [show, setShow] = useState<boolean>(true);
+  // const [reFetch, setReFetch] = useState<boolean>(true);
+  const [found, setFound] = useState<boolean>(true);
+  const [detail, setDetail] = useState<sortedData | null>(null);
   const [error, setError] = useState<errorProps>({
     error: false,
     errMessage: '',
   });
   // const [error, setError] = useState(false)
   const [po, setPo] = useState<sortedData[]>([]);
-  const [sortType, setSortType] = useState('Default');
+  const [sortType, setSortType] = useState<string>('Default');
 
   useEffect(() => {
     document.title = 'Raise DMR';
@@ -61,15 +62,18 @@ const DMR: NextPageWithLayout = () => {
             }));
         }
         setPo(sortedData);
+        console.log(sortedData)
         setId('');
         setDetail(null);
       } catch (err: any) {
+
         console.log(err);
         setError((prev) => ({ ...prev, error: true, errMessage: err.message }));
       }
     };
     console.log(error);
-    fetchAllPo();
+    fetchAllPo()
+
   }, [sortType, error]);
 
   const handlesubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,49 +135,36 @@ const DMR: NextPageWithLayout = () => {
             </>
           )}
         </div>
-        {po.length ? (
-          <div className="dropdown btn btn-outline-dark">
-            <button
-              className="btn dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+        {po.length ? (<>
+          <Dropdown
+            className={`btn btn-outline-dark ${styles.dropdown}`}>
+            <Dropdown.Toggle className=' dropdown-toggle'
+              variant='outline'
             >
               Sort By : {sortType}
-            </button>
-            <ul className="dropdown-menu dropdown-menu-light">
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => {
-                    setSortType('Latest');
-                  }}
-                >
-                  Latest
-                </button>
-              </li>
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => {
-                    setSortType('Oldest');
-                  }}
-                >
-                  Oldest
-                </button>
-              </li>
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => {
-                    setSortType('Default');
-                  }}
-                >
-                  None
-                </button>
-              </li>
-            </ul>
-          </div>
+
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="dropdown-menu dropdown-menu-light">
+              <Dropdown.Item className="dropdown-item" onClick={() => {
+                setSortType('Latest');
+              }}
+              >
+                Latest</Dropdown.Item>
+              <Dropdown.Item className="dropdown-item" onClick={() => {
+                setSortType('Oldest');
+              }}
+              >
+                Oldest</Dropdown.Item>
+              <Dropdown.Item className="dropdown-item"
+                onClick={() => {
+                  setSortType('Default');
+                }}
+              >
+                None</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </>
         ) : null}
       </div>
 
@@ -193,11 +184,11 @@ const DMR: NextPageWithLayout = () => {
                   <h2>Loading...</h2>
                 ) : (
                   <Container className="dflex align-items-center justify-content-center">
-                    {' '}
-                    <h2>Some thing went wrong. </h2>{' '}
+                    <h2>Some thing went wrong. </h2>
                     <p>
                       Po details can&apos;t fetch. Due to {error.errMessage}
                     </p>
+                    <button>retry.</button>
                   </Container>
                 )}
               </>

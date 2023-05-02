@@ -15,7 +15,6 @@ const Home: NextPageWithLayout = () => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const selectedFiles = files as FileList;
-
     const file = selectedFiles?.[0];
     if (!file) return;
     setFileName(file.name);

@@ -28,7 +28,7 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
         setListData(res?.data);
         console.log(res?.data);
       })
-      .catch((error) => {
+      .catch(() => {
         setError((prev) => ({ ...prev, error: true }));
       });
   };
@@ -100,11 +100,10 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
                 {range.map((el: number, i: number) => (
                   <button
                     key={i}
-                    className={`${styles.footerBTN} ${
-                      page === el
-                        ? styles.activeFooterBTN
-                        : styles.inactiveFooterBTN
-                    }`}
+                    className={`${styles.footerBTN} ${page === el
+                      ? styles.activeFooterBTN
+                      : styles.inactiveFooterBTN
+                      }`}
                     onClick={() => setPage(el)}
                   >
                     {el}

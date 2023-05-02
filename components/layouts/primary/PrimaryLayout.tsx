@@ -17,7 +17,7 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({
   return (
     <>
       <Head>
-        <title>NextJs Fullstack App Template</title>
+        <title>PO Module</title>
       </Head>
       <div {...divProps} className={` flex flex-col ${justify}`}>
         <Header />
