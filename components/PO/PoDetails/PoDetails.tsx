@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { SpinnerCircular } from 'spinners-react';
-import config from '../../config.json';
+import config from '../../../config.json';
+import AddRows from '../RowAR/RowAR';
 import style from './PO.module.css';
-import AddRows from './RowAR';
 
 interface IInputList {
   po_id: string;

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRef, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
-import PoDetails from '../components/PO/PoDetails';
+import PoDetails from '../components/PO/PoDetails/PoDetails';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
 
