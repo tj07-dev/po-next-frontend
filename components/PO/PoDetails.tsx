@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { SpinnerCircular } from 'spinners-react';
 import config from '../../config.json';
 import style from './PO.module.css';
 import AddRows from './RowAR';
@@ -34,6 +35,7 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
     items: [{ index: Math.random(), po_description: '', amount: '' }],
     filename: fileName.replace(/\s+/g, '+'),
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   //Adding consecutive rows in particular DMR
   const handleAddRows = () => {
@@ -58,46 +60,49 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
   const formSubmit = async (e: any) => {
     e.preventDefault();
     //TO DO
-    // const requiredFields = ["po_id", "poname", "projectName", "date"];
-    // for (let field of requiredFields) {
-    //   if (!inputList[field].length) {
-    //     alert(`Please fill all mandatory fields.`);
-    //     return;
-    //   }
-    // }
-
-    const { po_id, date, poname, projectName, items } = inputList;
-    const formData = new FormData();
-    formData.append('file', file);
-
-    console.log(file);
-    const data = {
-      po_id,
-      date,
-      poname,
-      projectName,
-      items,
-      filename: file.name,
-    };
-    formData.append('details', JSON.stringify(data));
-
-    try {
-      const response = await axios.post(
-        `${config.SERVER_URL}poDetails`,
-        formData
-      );
-      if (response.status === 200) {
-        toast.info('Data Submitted Successfully');
-        // await axios.post(`${config.SERVER_URL}uploadFile`, formData);
+    if (inputList.po_id.length === 0) {
+      toast.error('Please fill PO Number.');
+    } else if (inputList.date.length === 0) {
+      toast.error('Please fill date.');
+    } else if (inputList.poname.length === 0) {
+      toast.error('Please fill PO Name.');
+    } else if (inputList.projectName.length === 0) {
+      toast.error('Please fill Project Name.');
+    } else {
+      setIsLoading(true);
+      const { po_id, date, poname, projectName, items } = inputList;
+      const formData = new FormData();
+      formData.append('file', file);
+      console.log(file);
+      const data = {
+        po_id,
+        date,
+        poname,
+        projectName,
+        items,
+        filename: file.name,
+      };
+      formData.append('details', JSON.stringify(data));
+      try {
+        const response = await axios.post(
+          `${config.SERVER_URL}poDetails`,
+          formData
+        );
+        if (response.status === 200) {
+          handleReset();
+          setIsLoading(false);
+          toast.success('Data Submitted Successfully');
+          // await axios.post(`${config.SERVER_URL}uploadFile`, formData);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        toast.error('Something went wrong');
       }
-    } catch (error) {
-      console.log(error);
-      toast.error('Something went wrong');
     }
   };
 
   return (
-    <div>
+    <div className="mb-4">
       <h3 className="text-center mt-5">Please fill Purchase Order details</h3>
       <br />
       <Form>
@@ -185,22 +190,34 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
           setInputList={setInputList}
         />
         <Form.Group className="d-flex justify-content-between" as={Col}>
-          <div className=" ">
-            <button
-              className="mt-3 btn btn-outline-primary"
-              onClick={formSubmit}
-            >
-              Submit
-            </button>
-            <span style={{ margin: '3px' }} />
-            <button
-              className="btn btn-outline-danger mt-3"
-              type="reset"
-              onClick={() => handleReset()}
-            >
-              Cancel
-            </button>
-          </div>
+          {!isLoading ? (
+            <div className=" ">
+              <button
+                className="mt-3 btn btn-outline-primary"
+                onClick={formSubmit}
+              >
+                Submit
+              </button>
+              <span style={{ margin: '3px' }} />
+              <button
+                className="btn btn-outline-danger mt-3"
+                type="reset"
+                onClick={() => handleReset()}
+              >
+                Cancel
+              </button>{' '}
+            </div>
+          ) : (
+            <SpinnerCircular
+              className="m-2 px-2"
+              size={45}
+              thickness={100}
+              speed={100}
+              color="#000"
+              secondaryColor="rgba(0, 0, 0, 0.44)"
+            />
+          )}
+
           <button
             title="addRows"
             onClick={handleAddRows}

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Container, Dropdown } from 'react-bootstrap';
+import { SpinnerCircular } from 'spinners-react';
 import ListPo from '../components/DMR/listPO/ListPo';
 import POSearch from '../components/DMR/poSearch/POSearch';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
@@ -8,30 +9,27 @@ import config from '../config.json';
 import { sortedData } from '../interface';
 import styles from '../styles/dmr.module.css';
 import { NextPageWithLayout } from './page';
-
 interface errorProps {
   error: boolean | null;
   errMessage: string | null;
 }
-
 const DMR: NextPageWithLayout = () => {
   const [id, setId] = useState('');
   const [show, setShow] = useState<boolean>(true);
-  // const [reFetch, setReFetch] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
   const [found, setFound] = useState<boolean>(true);
   const [detail, setDetail] = useState<sortedData | null>(null);
   const [error, setError] = useState<errorProps>({
     error: false,
     errMessage: '',
   });
-  // const [error, setError] = useState(false)
   const [po, setPo] = useState<sortedData[]>([]);
   const [sortType, setSortType] = useState<string>('Default');
 
   useEffect(() => {
     document.title = 'Raise DMR';
     setShow(false);
-
+    let isSubscribe: boolean = true;
     const fetchAllPo = async () => {
       try {
         const response = await axios.get(`${config.SERVER_URL}getAllItems`);
@@ -62,18 +60,23 @@ const DMR: NextPageWithLayout = () => {
             }));
         }
         setPo(sortedData);
-        console.log(sortedData)
+        // setTimeout(() => setLoading(false), 3000);
+        console.log(sortedData);
         setId('');
         setDetail(null);
       } catch (err: any) {
-
+        // setTimeout(() => setError((prev) => ({ ...prev, error: true, errMessage: err.message })), 3000);
         console.log(err);
         setError((prev) => ({ ...prev, error: true, errMessage: err.message }));
       }
     };
     console.log(error);
-    fetchAllPo()
-
+    if (isSubscribe) {
+      fetchAllPo();
+    }
+    return () => {
+      isSubscribe = false;
+    };
   }, [sortType, error]);
 
   const handlesubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +103,7 @@ const DMR: NextPageWithLayout = () => {
   };
 
   return (
-    <Container>
+    <Container className="mb-4">
       <div className={`text-center my-4 ${styles.files} ${styles.toolbar}`}>
         <div
           className={styles.search}
@@ -135,36 +138,41 @@ const DMR: NextPageWithLayout = () => {
             </>
           )}
         </div>
-        {po.length ? (<>
-          <Dropdown
-            className={`btn btn-outline-dark ${styles.dropdown}`}>
-            <Dropdown.Toggle className=' dropdown-toggle'
-              variant='outline'
-            >
-              Sort By : {sortType}
+        {po.length ? (
+          <>
+            <Dropdown className={`btn btn-outline-dark ${styles.dropdown}`}>
+              <Dropdown.Toggle className=" dropdown-toggle" variant="outline">
+                Sort By : {sortType}
+              </Dropdown.Toggle>
 
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="dropdown-menu dropdown-menu-light">
-              <Dropdown.Item className="dropdown-item" onClick={() => {
-                setSortType('Latest');
-              }}
-              >
-                Latest</Dropdown.Item>
-              <Dropdown.Item className="dropdown-item" onClick={() => {
-                setSortType('Oldest');
-              }}
-              >
-                Oldest</Dropdown.Item>
-              <Dropdown.Item className="dropdown-item"
-                onClick={() => {
-                  setSortType('Default');
-                }}
-              >
-                None</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </>
+              <Dropdown.Menu className="dropdown-menu dropdown-menu-light">
+                <Dropdown.Item
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSortType('Latest');
+                  }}
+                >
+                  Latest
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSortType('Oldest');
+                  }}
+                >
+                  Oldest
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSortType('Default');
+                  }}
+                >
+                  None
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </>
         ) : null}
       </div>
 
@@ -180,15 +188,23 @@ const DMR: NextPageWithLayout = () => {
               <ListPo poDetails={po} />
             ) : po ? (
               <>
-                {error.error == false ? (
-                  <h2>Loading...</h2>
+                {error.error === false ? (
+                  <div className='d-flex justify-content-center align-items-center '>
+                    <SpinnerCircular
+                      className="m-2 px-2"
+                      size={45}
+                      thickness={100}
+                      speed={100}
+                      color="#000"
+                      secondaryColor="rgba(0, 0, 0, 0.44)"
+                    /><h2>Loading</h2>
+                  </div>
                 ) : (
                   <Container className="dflex align-items-center justify-content-center">
                     <h2>Some thing went wrong. </h2>
                     <p>
                       Po details can&apos;t fetch. Due to {error.errMessage}
                     </p>
-                    <button>retry.</button>
                   </Container>
                 )}
               </>
@@ -199,8 +215,9 @@ const DMR: NextPageWithLayout = () => {
         <div className="pt-3 mt-4">
           <POSearch details={detail} />
         </div>
-      )}
-    </Container>
+      )
+      }
+    </Container >
   );
 };
 

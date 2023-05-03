@@ -5,13 +5,13 @@ import { sortedData } from '../../../interface';
 import styles from '../DMR.module.css';
 import PODesc from './poDesc/PODesc';
 import useTable from './useTable/useTable';
-
 interface errorProps {
   error: boolean | null;
   errMessage: string | null;
 }
 
 const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
+
   const data = poDetails;
   const [listData, setListData] = useState<sortedData | null>(null);
   const [page, setPage] = useState(1);
@@ -19,8 +19,8 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
     error: false,
     errMessage: '',
   });
-  const { slice, range } = useTable(data, page, 7);
-
+  const { slice, range } = useTable(data, page, 10);
+  
   const handlePODetails = async (ponumber: string) => {
     axios
       .get(`${config.SERVER_URL}getdetails/${ponumber}`)
@@ -45,7 +45,7 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
           {listData ? (
             <div>
               <button
-                className={`${styles.butn} ${styles.butnOne} mb-3 ${styles.butn}`}
+                className={`${styles.butn_one}  mb-3`}
                 onClick={() => setListData(null)}
               >
                 <span> Go Back</span>
@@ -101,8 +101,8 @@ const ListPo = ({ poDetails }: { poDetails: sortedData[] }) => {
                   <button
                     key={i}
                     className={`${styles.footerBTN} ${page === el
-                      ? styles.activeFooterBTN
-                      : styles.inactiveFooterBTN
+                        ? styles.activeFooterBTN
+                        : styles.inactiveFooterBTN
                       }`}
                     onClick={() => setPage(el)}
                   >

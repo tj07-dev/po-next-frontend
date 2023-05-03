@@ -7,32 +7,40 @@ import { sortedData } from '../../../interface';
 import '../DMR.module.css';
 
 const DMRinputs = ({ details }: { details: sortedData }) => {
-
   const data = details.details;
   const [inputList, setInputList] = useState(data);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
-    const id = toast.loading("Submitting details", {
-      position: "bottom-right",
+    const id = toast.loading('Submitting details', {
+      position: 'bottom-right',
       autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "light",
-    })
+      theme: 'light',
+    });
     // console.log('DMRINput', data);
     e.preventDefault();
     axios
       .patch(`${config.SERVER_URL}poDetails/${details.ponumber}`, data)
       .then(() => {
-        toast.update(id, { render: "Data Submitted Successfully.", type: "success", isLoading: false, autoClose: 300 });
+        toast.update(id, {
+          render: 'Data Submitted Successfully.',
+          type: 'success',
+          isLoading: false,
+          autoClose: 300,
+        });
         // console.log('Response', d);
       })
       .catch((err) => {
-        toast.update(id, { render: `${err.message}.`, type: "error", isLoading: false, autoClose: 300 });
+        toast.update(id, {
+          render: `${err.message}.`,
+          type: 'error',
+          isLoading: false,
+          autoClose: 300,
+        });
         // console.log(err);
       });
   };

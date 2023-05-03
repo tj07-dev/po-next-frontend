@@ -54,7 +54,7 @@ const AddRows = ({ inputList, deleted, setInputList }: IAddRows) => {
             </label>
             <button
               title="d"
-              onClick={(e) => deleted(idx)}
+              onClick={() => deleted(idx)}
               type="button"
               className="btn btn-outline-danger"
             >

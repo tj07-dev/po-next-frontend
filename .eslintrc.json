@@ -18,6 +18,19 @@
     }
   ],
   "rules": {
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+    "no-unused-vars": [
+      1,
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-duplicate-imports": [
+      "warn",
+      {
+        "includeExports": false
+      }
+    ],
+    "no-await-in-loop": ["warn"]
   }
 }

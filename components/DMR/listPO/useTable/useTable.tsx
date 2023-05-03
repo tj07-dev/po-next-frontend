@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import {useState, useEffect  } from 'react';
 import { sortedData } from '../../../../interface';
 
 const calculateRange = (data: sortedData[], rowsPerPage: number) => {
+  
   const range: number[] = [];
   const num = Math.ceil(data.length / rowsPerPage);
-
   for (let i = 1; i <= num; i++) {
     range.push(i);
   }
@@ -22,7 +22,6 @@ const useTable = (data: sortedData[], page: number, rowsPerPage: number) => {
   useEffect(() => {
     const range = calculateRange(data, rowsPerPage);
     setTableRange([...range]);
-
     const slice = sliceData(data, page, rowsPerPage);
     setSlice([...slice]);
     console.log('slice', slice);

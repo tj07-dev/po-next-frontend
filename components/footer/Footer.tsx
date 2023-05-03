@@ -8,7 +8,7 @@ const Footer = () => {
       <footer className={`${style.footerlinks}  footerlinks`}>
         <ul className="nav justify-content-center  p-3 mt-2">
           <Nav className={`${style.links} mr-auto ms-2 `}>
-            <Link href="/" className={`${style.fbarlink}  `} >
+            <Link href="/" className={`${style.fbarlink}  `}>
               Home
             </Link>
             <Link href="/evc" className={`${style.fbarlink}  `}>

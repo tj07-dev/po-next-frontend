@@ -4,65 +4,82 @@ import { Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import config from '../../../../config.json';
 import { sortedData } from '../../../../interface';
-import '../../DMR.module.css';
+import styles from '../../DMR.module.css';
 
 const PODesc = ({ searchDetails }: { searchDetails: sortedData }) => {
-
   const data = searchDetails;
   const [inputList, setInputList] = useState(data);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log('DMR DESC', data);
     e.preventDefault();
-    const id = toast.loading("Submiting...", {
-      position: "bottom-right",
+    const id = toast.loading('Submiting...', {
+      position: 'bottom-right',
       autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "light",
-    })
+      theme: 'light',
+    });
     axios
       .patch(`${config.SERVER_URL}poDetails/${data.ponumber}`, data.details)
       .then((res) => {
         if (res.status === 404) {
-          toast.update(id, { render: "404, File Not Found.", type: "error", isLoading: false, autoClose: 300 });
+          toast.update(id, {
+            render: '404, File Not Found.',
+            type: 'error',
+            isLoading: false,
+            autoClose: 300,
+          });
         } else if (res.status === 200) {
-          toast.update(id, { render: "Data updated successfully.", type: "success", isLoading: false, autoClose: 300 });
+          toast.update(id, {
+            render: 'Data updated successfully.',
+            type: 'success',
+            isLoading: false,
+            autoClose: 300,
+          });
         }
       })
       .catch((err) => {
-        toast.update(id, { render: `Data Not Updated. Error: ${err.message}.`, type: "error", isLoading: false, autoClose: 300 });
+        toast.update(id, {
+          render: `Data Not Updated. Error: ${err.message}.`,
+          type: 'error',
+          isLoading: false,
+          autoClose: 300,
+        });
         // console.log(err);
       });
   };
 
   return (
-    <div className="container-table100 " style={{ justifyContent: 'center' }}>
-      <div className="wrap-table100" style={{ width: 'inherit' }}>
-        <div className="table">
-          <div className="rowo header">
-            <div className="cell"></div>
-            <div className="cell">PO Number</div>
-            <div className="cell">PO Name</div>
-            <div className="cell">Project Name</div>
-            <div className="cell">Date</div>
-            <div className="cell">File</div>
+    <div
+      className={styles.containertable100}
+      style={{ justifyContent: 'center' }}
+    >
+      <div className={styles.wraptable100} style={{ width: 'inherit' }}>
+        <div className={styles.table}>
+          <div className={`${styles.rowo} ${styles.header}`}>
+            <div className={styles.cell}></div>
+            <div className={styles.cell}>PO Number</div>
+            <div className={styles.cell}>PO Name</div>
+            <div className={styles.cell}>Project Name</div>
+            <div className={styles.cell}>Date</div>
+            <div className={styles.cell}>File</div>
           </div>
-          <div className="rowo">
-            <div className="cell"></div>
-            <div className="cell" data-title="PO Number">
+          <div className={styles.rowo}>
+            <div className={styles.cell}></div>
+            <div className={styles.cell} data-title="PO Number">
               {data.ponumber}
             </div>
-            <div className="cell" data-title="PO Name">
+            <div className={styles.cell} data-title="PO Name">
               {data.poname}
             </div>
-            <div className="cell" data-title="Project Name">
+            <div className={styles.cell} data-title="Project Name">
               {data.projectName}
             </div>
-            <div className="cell" data-title="Date">
+            <div className={styles.cell} data-title="Date">
               {data.date}
             </div>
             <div
@@ -72,11 +89,7 @@ const PODesc = ({ searchDetails }: { searchDetails: sortedData }) => {
             >
               <div>{data.filename}</div>
               <div className="submitBTN" style={{ width: '2.5rem' }}>
-                <a
-                  href={data.filePath}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={data.filePath} target="_blank" rel="noreferrer">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"

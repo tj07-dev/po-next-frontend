@@ -28,33 +28,46 @@ const EVC: NextPageWithLayout = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const id = toast.loading("Submiting...", {
-      position: "bottom-right",
+    const id = toast.loading('Submiting...', {
+      position: 'bottom-right',
       autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "light",
-    })
+      theme: 'light',
+    });
     if (sheetName.length === 0) {
       setDataError('No data to submit.');
       return;
     }
     try {
-      const response = await axios.post(`${config.SERVER_URL}xlData`, data)
+      const response = await axios.post(`${config.SERVER_URL}xlData`, data);
 
       if (response.status === 404) {
-
-        toast.update(id, { render: "404, File Not Found.", type: "error", isLoading: false, autoClose: 300 });
+        toast.update(id, {
+          render: '404, File Not Found.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 300,
+        });
       } else if (response.status === 200) {
         // toast.success('Data Submitted Successfully');
-        toast.update(id, { render: "Data Submitted Successfully.", type: "success", isLoading: false, autoClose: 300 });
+        toast.update(id, {
+          render: 'Data Submitted Successfully.',
+          type: 'success',
+          isLoading: false,
+          autoClose: 300,
+        });
       }
     } catch (error: any) {
-      toast.update(id, { render: `${error.message}.`, type: "error", isLoading: false, autoClose: 300 });
-
+      toast.update(id, {
+        render: `${error.message}.`,
+        type: 'error',
+        isLoading: false,
+        autoClose: 300,
+      });
     }
   };
 
@@ -68,7 +81,7 @@ const EVC: NextPageWithLayout = () => {
   };
 
   return (
-    <Container>
+    <Container className=" mb-5">
       <Row className="mt-3">
         <Col>
           <FileUploader

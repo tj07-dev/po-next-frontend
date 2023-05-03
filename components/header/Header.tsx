@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -25,19 +25,29 @@ const Header = () => {
       <div
         className={`${styles['navbar-right']} ${isOpen ? styles['open'] : ''}`}
       >
-        <Link href="/" className={`${styles.navbarlink}  ${router.asPath === '/' ? styles['active'] : ''}`} onClick={toggleMenu}>
+        <Link
+          href="/"
+          className={`${styles.navbarlink}  ${
+            router.asPath === '/' ? styles['active'] : ''
+          }`}
+          onClick={toggleMenu}
+        >
           Home
         </Link>
         <Link
           href="/evc"
-          className={`${styles.navbarlink}  ${router.asPath === '/evc' ? styles['active'] : ''}`}
+          className={`${styles.navbarlink}  ${
+            router.asPath === '/evc' ? styles['active'] : ''
+          }`}
           onClick={toggleMenu}
         >
           EVC
         </Link>
         <Link
           href="/dmr"
-          className={`${styles.navbarlink}  ${router.asPath === '/dmr' ? styles['active'] : ''}`}
+          className={`${styles.navbarlink}  ${
+            router.asPath === '/dmr' ? styles['active'] : ''
+          }`}
           onClick={toggleMenu}
         >
           Raise DMR

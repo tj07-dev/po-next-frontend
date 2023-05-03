@@ -7,7 +7,6 @@ import { read, utils, writeFile } from 'xlsx';
 import config from '../../../config.json';
 import { IFileUploader } from '../../../interface';
 
-
 const FileUploader = ({
   fileError,
   setData,
@@ -20,24 +19,37 @@ const FileUploader = ({
   setHeader,
 }: IFileUploader) => {
   const downloadExcel = () => {
-    const id = toast.loading("Preparing to download.", {
-      position: "bottom-right",
+    const id = toast.loading('Preparing to download.', {
+      position: 'bottom-right',
       autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
-      theme: "light",
-      type: 'info'
-    })
-    axios.get(`${config.SERVER_URL}xlData`).then((d) => {
-      console.log(d);
-      const workbook = d.data;
-      writeFile(workbook, 'AllData.xlsx');
-      toast.update(id, { render: "File Downloaded.", type: "success", isLoading: false, autoClose: 300 });
-    }).catch((error: any) => {
-      toast.update(id, { render: `${error.message}.`, type: "error", isLoading: false, autoClose: 800 });
-    })
+      theme: 'light',
+      type: 'info',
+    });
+    axios
+      .get(`${config.SERVER_URL}xlData`)
+      .then((d) => {
+        console.log(d);
+        const workbook = d.data;
+        writeFile(workbook, 'AllData.xlsx');
+        toast.update(id, {
+          render: 'File Downloaded.',
+          type: 'success',
+          isLoading: false,
+          autoClose: 300,
+        });
+      })
+      .catch((error: any) => {
+        toast.update(id, {
+          render: `${error.message}.`,
+          type: 'error',
+          isLoading: false,
+          autoClose: 800,
+        });
+      });
   };
 
   const handleFileUpload = (e: any) => {
@@ -54,12 +66,15 @@ const FileUploader = ({
         setWorkbook(workbook);
         setSheetName(workbook.SheetNames);
         const selectedWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const sheetData1: Array<string[]> = utils.sheet_to_json(selectedWorksheet, {
-          header: 1,
-          raw: false,
-          dateNF: 'yyyy-mm-dd',
-          // cellDates: true,
-        });
+        const sheetData1: Array<string[]> = utils.sheet_to_json(
+          selectedWorksheet,
+          {
+            header: 1,
+            raw: false,
+            dateNF: 'yyyy-mm-dd',
+            // cellDates: true,
+          }
+        );
         const sheetData = utils.sheet_to_json(selectedWorksheet, {
           raw: false,
           dateNF: 'yyyy-mm-dd',
