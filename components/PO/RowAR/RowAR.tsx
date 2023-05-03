@@ -1,5 +1,5 @@
 import { Col, Row } from 'react-bootstrap';
-import './PO.module.css';
+import '../PO.module.css';
 
 interface IAddRows {
   inputList: any;
