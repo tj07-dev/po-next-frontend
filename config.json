@@ -1,4 +1,6 @@
 {
+  "LOCAL_URL_T": "http://192.168.67.93:8080/",
+  "SERVER_URL_T": "http://192.168.67.93:8080/",
   "LOCAL_URL": "http://localhost:8001/",
   "SERVER_URL": "http://Localhost:8001/"
 }

@@ -19,35 +19,32 @@ const Header = () => {
           Purchase Order
         </Link>
       </div>
-      <button className={styles['navbar-toggle-button']} onClick={toggleMenu}>
-        <span className={styles['navbar-toggle-icon']}></span>
+      <button className={styles['navbar-toggle-button']} onClick={toggleMenu} aria-label='toggleButton'>
+        <span className={styles['navbar-toggle-icon']} id='toggleButton'></span>
       </button>
       <div
         className={`${styles['navbar-right']} ${isOpen ? styles['open'] : ''}`}
       >
         <Link
           href="/"
-          className={`${styles.navbarlink}  ${
-            router.asPath === '/' ? styles['active'] : ''
-          }`}
+          className={`${styles.navbarlink}  ${router.asPath === '/' ? styles['active'] : ''
+            }`}
           onClick={toggleMenu}
         >
           Home
         </Link>
         <Link
           href="/evc"
-          className={`${styles.navbarlink}  ${
-            router.asPath === '/evc' ? styles['active'] : ''
-          }`}
+          className={`${styles.navbarlink}  ${router.asPath === '/evc' ? styles['active'] : ''
+            }`}
           onClick={toggleMenu}
         >
           EVC
         </Link>
         <Link
           href="/dmr"
-          className={`${styles.navbarlink}  ${
-            router.asPath === '/dmr' ? styles['active'] : ''
-          }`}
+          className={`${styles.navbarlink}  ${router.asPath === '/dmr' ? styles['active'] : ''
+            }`}
           onClick={toggleMenu}
         >
           Raise DMR

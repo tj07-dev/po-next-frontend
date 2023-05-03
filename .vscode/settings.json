@@ -20,7 +20,7 @@
   "editor.wordBasedSuggestionsMode": "allDocuments",
   "files.autoGuessEncoding": true,
   "workbench.commandPalette.experimental.suggestCommands": true,
-  "window.autoDetectColorScheme": true,
+  "window.autoDetectColorScheme": false,
   "window.closeWhenEmpty": false,
   "scm.alwaysShowRepositories": true,
   "terminal.integrated.confirmOnExit": "hasChildProcesses",
@@ -36,5 +36,11 @@
   "debug.javascript.autoAttachFilter": "onlyWithFlag",
   "node_require.defaultRequireMethod": "import",
   "npm-intellisense.packageSubfoldersIntellisense": true,
-  "path-intellisense.autoTriggerNextSuggestion": true
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "workbench.colorTheme": "Ayu Dark Bordered",
+  "workbench.iconTheme": "developer-icon-theme",
+  "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
+  "workbench.preferredHighContrastColorTheme": "Ayu Dark Bordered",
+  "workbench.preferredHighContrastLightColorTheme": "Ayu Dark Bordered",
+  "workbench.preferredLightColorTheme": "Ayu Dark Bordered"
 }
