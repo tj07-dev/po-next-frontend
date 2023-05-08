@@ -91,12 +91,22 @@ const PoDetails = ({ file, handleReset, fileName }: props) => {
         if (response.status === 200) {
           handleReset();
           setIsLoading(false);
-          toast.success('Data Submitted Successfully');
+          console.log(response, 'POdetails')
+          toast.success(`${response.data.msg} 200`);
           // await axios.post(`${config.SERVER_URL}uploadFile`, formData);
+        } if (response.status === 404) {
+          handleReset();
+          setIsLoading(false);
+          toast.success(`${response.data.msg} 404`);
+          // await axios.post(`${config.SERVER_URL}uploadFile`, formData);
+        } if (response.status !== 404 && response.status !== 200) {
+          // handleReset();
+          setIsLoading(false);
+          toast.success(`${response.data.msg} else`);
         }
       } catch (error) {
         setIsLoading(false);
-        toast.error('Something went wrong');
+        toast.error(`${(error as Error).message}`);
       }
     }
   };

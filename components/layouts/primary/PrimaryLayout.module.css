@@ -7,7 +7,13 @@
 .main > section {
   padding: 32px;
 }
-.footerWrapper {
+@media (max-width: 375px) {
+   .layout{
+   
+    width: min-content;
+  }
+}
+/* .footerWrapper {
   background-color: black;
 }
 .footer-links {
@@ -35,4 +41,4 @@
     flex-direction: column;
     align-items: center;
   }
-}
+} */

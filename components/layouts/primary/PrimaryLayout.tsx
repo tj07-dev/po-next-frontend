@@ -19,7 +19,7 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({
       <Head>
         <title>PO Module</title>
       </Head>
-      <div {...divProps} className={` flex flex-col ${justify}`}>
+      <div {...divProps} className={`layout flex flex-col ${justify}`}>
         <Header />
         <main className="">{children}</main>
         {/* <div className="m-auto" /> */}

@@ -43,22 +43,6 @@ const DataTable = ({ data, headers }: IDataTable) => {
                 ))}
             </tr>
           ))}
-          {/* {data?.slice(1).map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row?.map((cell, cellIndex) => (
-                <td
-                  key={cellIndex}
-                  style={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))} */}
         </tbody>
       </Table>
     </div>

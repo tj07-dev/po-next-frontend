@@ -23,12 +23,14 @@ export interface DetailsEntity {
 //EVC
 export interface IFileUploader {
   data: string[];
+  projectNames: string[];
   fileError: string;
   setData: Dispatch<SetStateAction<Array<string>>>;
   setWorkbook: Dispatch<SetStateAction<WorkBook>>;
   setFileError: Dispatch<SetStateAction<string>>;
   inputFileRef: React.RefObject<HTMLInputElement>;
   handleRemoveFile: () => void;
+  setNewEVCreate: Dispatch<SetStateAction<boolean>>;
   setSheetName: Dispatch<SetStateAction<Array<string>>>;
   sheetName: string[];
   setHeader: Dispatch<SetStateAction<Array<string>>>;

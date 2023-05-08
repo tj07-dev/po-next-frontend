@@ -203,7 +203,8 @@ const DMR: NextPageWithLayout = () => {
                   <Container className="dflex align-items-center justify-content-center">
                     <h2>Some thing went wrong. </h2>
                     <p>
-                      Po details can&apos;t fetch. Due to {error.errMessage}
+                      Po details can&apos;t fetch.
+                      Due to {error.errMessage}
                     </p>
                   </Container>
                 )}

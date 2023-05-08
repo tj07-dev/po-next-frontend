@@ -57,3 +57,7 @@
 .list {
   padding: 30px;
 }
+.star {
+  color: rgba(255, 0, 0, 0.995);
+  font-size: larger;
+}

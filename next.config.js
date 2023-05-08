@@ -7,13 +7,28 @@
 //   },
 // };
 // module.exports = nextConfig;
+const runtimeCaching = require('next-pwa/cache');
 
 const nextConfig = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
+  disableDevLogs: true,
+  mode: 'production',
   disable: process.env.NODE_ENV === 'development',
+  runtimeCaching,
 });
-module.exports = nextConfig({ reactStrictMode: true, swcMinify: true });
+module.exports = nextConfig({
+  async rewrites() {
+    return [
+      {
+        source: '/:any*',
+        destination: '/',
+      },
+    ];
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+});
 
 // module.exports = withPWA({});

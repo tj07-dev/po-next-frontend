@@ -1,7 +1,14 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { Alert, Button, Card, Form } from 'react-bootstrap';
+import {
+  Alert,
+  Button,
+  Card,
+  Dropdown,
+  DropdownButton,
+  Form,
+} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { read, utils, writeFile } from 'xlsx';
 import config from '../../../config.json';
@@ -17,8 +24,10 @@ const FileUploader = ({
   setSheetName,
   sheetName,
   setHeader,
+  projectNames,
+  setNewEVCreate,
 }: IFileUploader) => {
-  const downloadExcel = () => {
+  const downloadExcel = (e: any) => {
     const id = toast.loading('Preparing to download.', {
       position: 'bottom-right',
       autoClose: 500,
@@ -29,12 +38,13 @@ const FileUploader = ({
       theme: 'light',
       type: 'info',
     });
+    let data: string = projectNames[e];
     axios
-      .get(`${config.SERVER_URL}xlData`)
+      .get(`${config.SERVER_URL}xlData/${data}`)
       .then((d) => {
         console.log(d);
         const workbook = d.data;
-        writeFile(workbook, 'AllData.xlsx');
+        writeFile(workbook, `${data}.xlsx`);
         toast.update(id, {
           render: 'File Downloaded.',
           type: 'success',
@@ -56,67 +66,97 @@ const FileUploader = ({
     e.preventDefault();
     setFileError('');
     try {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        const workbook = read(event.target.result, {
-          type: 'binary',
-          cellFormula: true,
-        });
-        setWorkbook(workbook);
-        setSheetName(workbook.SheetNames);
-        const selectedWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const sheetData1: Array<string[]> = utils.sheet_to_json(
-          selectedWorksheet,
-          {
-            header: 1,
+      let file: File | null = e.target.files[0];
+
+      if (!file) {
+        return;
+      }
+      console.log(file.type);
+      if (
+        file.type !==
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      ) {
+        toast.error('Please select XLSX file only!');
+        handleRemoveFile();
+      } else {
+        const reader = new FileReader();
+        reader.onload = (event: any) => {
+          const workbook = read(event.target.result, {
+            type: 'binary',
+            cellFormula: true,
+          });
+          setWorkbook(workbook);
+          setSheetName(workbook.SheetNames);
+          const selectedWorksheet = workbook.Sheets[workbook.SheetNames[0]];
+          const sheetData1: Array<string[]> = utils.sheet_to_json(
+            selectedWorksheet,
+            {
+              header: 1,
+              raw: false,
+              dateNF: 'yyyy-mm-dd',
+              // cellDates: true,
+            }
+          );
+          const sheetData = utils.sheet_to_json(selectedWorksheet, {
             raw: false,
             dateNF: 'yyyy-mm-dd',
             // cellDates: true,
-          }
-        );
-        const sheetData = utils.sheet_to_json(selectedWorksheet, {
-          raw: false,
-          dateNF: 'yyyy-mm-dd',
-          // cellDates: true,
-        });
-        setHeader(sheetData1[0]);
+          });
+          setHeader(sheetData1[0]);
 
-        // Modify sheet data
-        const modifiedSheetData = sheetData.map((row, index) => {
-          if (index === 1) {
-            return Array.isArray(row)
-              ? row.map((cell) => (cell == null || cell === '' ? 0 : cell))
-              : row;
-          }
-          return row;
-        });
-        setData(modifiedSheetData as string[]);
+          // Modify sheet data
+          const modifiedSheetData = sheetData.map((row, index) => {
+            if (index === 1) {
+              return Array.isArray(row)
+                ? row.map((cell) => (cell == null || cell === '' ? 0 : cell))
+                : row;
+            }
+            return row;
+          });
+          setData(modifiedSheetData as string[]);
 
-        console.log(modifiedSheetData, 'sheetdata');
-      };
-      reader.readAsBinaryString(file);
+          console.log(modifiedSheetData, 'sheetdata');
+        };
+        reader.readAsBinaryString(file);
+      }
     } catch (error) {
       setFileError('Error reading file. Please select a valid Excel file.');
     }
   };
 
-  // const handleRemoveFile = () => {
-  //     setData([]);
-  //     setWorkbook(null);
-  //     setFileError('');
-  //     inputFileRef.current.value = '';
-  // };
-
   return (
     <>
-      <Button
-        className="my-3 btn btn-outline-dark "
-        variant="outline-dark"
-        onClick={downloadExcel}
-      >
-        <i className="fa fa-download"> Download All Data</i>
-      </Button>
+      <div className="d-flex">
+        <DropdownButton
+          className="my-3"
+          variant="outline-dark"
+          title={
+            <i>
+              Download Project data
+              <FontAwesomeIcon
+                icon={faDownload}
+                className="mx-2"
+                style={{ color: '#000000' }}
+              />
+            </i>
+          }
+          onSelect={downloadExcel}
+        >
+          {projectNames.map((projectSelect: string, index: number) => (
+            <Dropdown.Item key={index} eventKey={index}>
+              {projectSelect}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
+        <span className="mx-3" />
+        <Button
+          variant="outline-primary"
+          className="my-3"
+          onClick={() => setNewEVCreate(true)}
+        >
+          Add New Project
+        </Button>
+      </div>
       <Form>
         <Card className="text-center files">
           <Card.Header>Upload Excel file</Card.Header>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRef, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import PoDetails from '../components/PO/PoDetails/PoDetails';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
@@ -12,13 +13,22 @@ const Home: NextPageWithLayout = () => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const 
+  handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const selectedFiles = files as FileList;
-    const file = selectedFiles?.[0];
-    if (!file) return;
-    setFileName(file.name);
-    setFile(file);
+    const file: File = selectedFiles?.[0];
+
+    if (!file) { return }
+    console.log(file.type)
+    if (file.type !== 'application/pdf') {
+      toast.error('Please select PDF file only!')
+      fileRef.current.value = ''
+    } else {
+      setFileName(file.name);
+      setFile(file);
+    }
+
   };
   const handleReset = () => {
     setFileName('');
@@ -48,12 +58,14 @@ const Home: NextPageWithLayout = () => {
                 required
               />
               {file != null ? (
-                <i onClick={handleReset}>
+                <> <i onClick={handleReset}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     style={{ color: '#000000' }}
                   />
                 </i>
+
+                </>
               ) : null}
             </Card.Text>
           </Card.Body>

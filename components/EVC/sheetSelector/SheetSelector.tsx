@@ -41,6 +41,7 @@ const SheetSelector = ({
     console.log(sheetData1, 'sheetdata header');
     setData(sheetData);
     setHeader(sheetData1[0]);
+    console.log(sheetData1[0], 'Headersssss');
   };
 
   return (
