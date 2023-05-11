@@ -115,10 +115,7 @@ const DMRinputs = ({ details }: { details: sortedData }) => {
             File Name
           </label>
           <a
-            href={`${'https://team1backendbucket.s3.ap-south-1.amazonaws.com/'}${details.filename?.replace(
-              /\s+/g,
-              '+'
-            )}`}
+            href={`${details.filePath}`}
             target="_blank"
             rel="noreferrer"
           >

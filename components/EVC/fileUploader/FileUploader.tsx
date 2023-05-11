@@ -10,7 +10,7 @@ import {
   Form,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { read, utils, writeFile } from 'xlsx';
+import { read, utils} from 'xlsx';
 import config from '../../../config.json';
 import { IFileUploader } from '../../../interface';
 
@@ -34,25 +34,34 @@ const FileUploader = ({
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
-      draggable: true,
+
       theme: 'light',
       type: 'info',
     });
     let data: string = projectNames[e];
+    // axios
+    //   .get(`${config.SERVER_URL}xlData/${data}`)
+    //   .then((d) => {
+    //     console.log(d);
+    //     const workbook = d.data;
+    //     writeFile(workbook, `${data}.xlsx`);
+    //     toast.update(id, {
+    //       render: 'File Downloaded.',
+    //       type: 'success',
+    //       isLoading: false,
+    //       autoClose: 300,
+    //     });
+    //   })
     axios
-      .get(`${config.SERVER_URL}xlData/${data}`)
-      .then((d) => {
-        console.log(d);
-        const workbook = d.data;
-        writeFile(workbook, `${data}.xlsx`);
-        toast.update(id, {
-          render: 'File Downloaded.',
-          type: 'success',
-          isLoading: false,
-          autoClose: 300,
-        });
-      })
-      .catch((error: any) => {
+      .get(`${config.SERVER_URL}xlData/${data}`, { responseType: 'blob' })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${data}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      }).catch((error: any) => {
         toast.update(id, {
           render: `${error.message}.`,
           type: 'error',

@@ -1,6 +1,6 @@
 {
-  "LOCAL_URL_T": "http://192.168.67.93:8080/",
-  "SERVER_URL_T": "http://192.168.67.93:8080/",
-  "LOCAL_URL": "http://localhost:8001/",
-  "SERVER_URL": "http://Localhost:8001/"
+  "LOCAL_URL": "https://x0efrak10l.execute-api.ap-south-1.amazonaws.com/dev/",
+  "SERVER_URL": "https://x0efrak10l.execute-api.ap-south-1.amazonaws.com/dev/",
+  "LOCAL_URLk": "http://localhost:8001/",
+  "SERVER_URLk": "http://Localhost:8001/"
 }

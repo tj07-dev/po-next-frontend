@@ -1,27 +1,38 @@
-# Base image
-FROM node:18.16.0
+FROM public.ecr.aws/lambda/nodejs:18
 
-# Set working directory
-WORKDIR /app
+WORKDIR /var/task
 
-# Copy package.json and yarn.lock to container
-COPY package.json yarn.lock ./
-
-# Install dependencies
-RUN yarn install
-
-# Copy the rest of the app files to container
 COPY . .
 
-# Build the app
-RUN yarn build
 
-# Set environment variables
-ENV NODE_ENV production
-ENV PORT 3000
+RUN npm install yarn --global
+COPY package.json yarn.lock ./
+RUN yarn install
 
-# Expose the port
-EXPOSE 3000
+# # Base image
+# FROM node:18.16.0
 
-# Start the app
-CMD ["yarn", "start"]
+# # Set working directory
+# WORKDIR /app
+
+# # Copy package.json and yarn.lock to container
+
+# # Install dependencies
+# RUN yarn install
+
+# # Copy the rest of the app files to container
+COPY . .
+
+# # Build the app
+# RUN yarn build
+
+# # Set environment variables
+# ENV NODE_ENV production
+# ENV PORT 3000
+
+# # Expose the port
+# EXPOSE 3000
+
+# # Start the app
+CMD [ "index.handler"]
+# CMD [ ]
